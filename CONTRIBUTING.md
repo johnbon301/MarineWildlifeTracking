@@ -18,11 +18,9 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 - [I Want To Contribute](#i-want-to-contribute)
 - [Reporting Bugs](#reporting-bugs)
 - [Suggesting Enhancements](#suggesting-enhancements)
-- [Your First Code Contribution](#your-first-code-contribution)
 - [Improving The Documentation](#improving-the-documentation)
 - [Styleguides](#styleguides)
 - [Commit Messages](#commit-messages)
-- [Join The Project Team](#join-the-project-team)
 
 
 ## Code of Conduct
@@ -113,14 +111,9 @@ Enhancement suggestions are tracked as [GitHub issues](/issues).
 - **Explain why this enhancement would be useful** to most CONTRIBUTING.md users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
 
 
-
-### Your First Code Contribution
-
-soon to be added
-
 ### Improving The Documentation
 
-soon to be added
+If you plan on fixing issues or contributing to the repo, commits and pushes will be thoroughly reviewed to ensure nothing breaks.
 
 ## Styleguides
 
@@ -128,11 +121,8 @@ soon to be added
 
 ### Commit Messages
 
-soon to be added
-
-## Join The Project Team
-
-soon to be added
+Make sure they are concise and easy to understand when writing commit messages
 
 ## Attribution
 This guide is based on the **contributing.md**. [Make your own](https://contributing.md/)!
+All credits go to the original creator of the contributing file
