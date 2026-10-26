@@ -5,8 +5,6 @@ reviews happen, and what each of us commits to every sprint. Everyone on the tea
 is expected to follow it. If something here stops matching how we actually work,
 open an issue and fix the file. Don't just ignore it.
 
-> **Fill-in note:** anything in `[BRACKETS]` must be replaced with our real
-> names, tools, and sprint numbers before submission.
 
 ## Table of Contents
 
