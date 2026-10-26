@@ -1,128 +1,175 @@
-# Contributing to CONTRIBUTING.md
+# Contributing
 
-First off, thanks for taking the time to contribute!
+This file describes how our team works, where work lives, what "done" means, how
+reviews happen, and what each of us commits to every sprint. Everyone on the team
+is expected to follow it. If something here stops matching how we actually work,
+open an issue and fix the file. Don't just ignore it.
 
-All types of contributions are encouraged and valued. See the [Table of Contents](#table-of-contents) for different ways to help and details about how this project handles them. Please make sure to read the relevant section before making your contribution. It will make it a lot easier for us maintainers and smooth out the experience for all involved. The community looks forward to your contributions.
-
-> And if you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
-> - Star the project
-> - Tweet about it
-> - Refer this project in your project's readme
-> - Mention the project at local meetups and tell your friends/colleagues
-
+> **Fill-in note:** anything in `[BRACKETS]` must be replaced with our real
+> names, tools, and sprint numbers before submission.
 
 ## Table of Contents
 
-- [Code of Conduct](#code-of-conduct)
-- [I Have a Question](#i-have-a-question)
-- [I Want To Contribute](#i-want-to-contribute)
-- [Reporting Bugs](#reporting-bugs)
-- [Suggesting Enhancements](#suggesting-enhancements)
-- [Improving The Documentation](#improving-the-documentation)
+- [Team and Ownership](#team-and-ownership)
+- [Where Work Lives](#where-work-lives)
+- [Workflow](#workflow)
+- [Definition of Done](#definition-of-done)
+- [Review Expectations](#review-expectations)
+- [The Contribution Norm](#the-contribution-norm)
+- [AI-Assisted Work](#ai-assisted-work)
+- [Reporting Bugs and Asking Questions](#reporting-bugs-and-asking-questions)
 - [Styleguides](#styleguides)
-- [Commit Messages](#commit-messages)
+- [Code of Conduct](#code-of-conduct)
 
+## Team and Ownership
 
-## Code of Conduct
+| Member | Primary area | Owns these gates (see Definition of Done) |
+|---|---|---|
+| Jonathan | [e.g. model training / evaluation] | [e.g. test suite, CI test job] |
+| Cash | [e.g. data pipeline] | [e.g. lint + format hooks] |
+| Alex | [e.g. infrastructure / tooling] | [e.g. CI workflow, branch protection] |
+| Connor | [e.g. docs / partner liaison] | [e.g. PR template, docs check] |
 
-This project and everyone participating in it is governed by the
-[CONTRIBUTING.md Code of Conduct](blob/master/CODE_OF_CONDUCT.md).
-By participating, you are expected to uphold this code. Please report unacceptable behavior
-to <Jonathan>.
+Project partner: Marg Daly, Pacific Northwest National Laboratory. Partner contact goes through
+Cash.
 
+## Where Work Lives
 
-## I Have a Question
+| Kind of work | Where it lives |
+|---|---|
+| Code, configs, scripts | This GitHub repository |
+| Tasks, bugs, planning | GitHub Issues, organized on the GitHub Projects board |
+| Design docs, research notes, experiment results | In this repository (Markdown) |
+| Partner deliverables | [Partner's system, e.g. shared Google Drive folder], with a link recorded in the matching issue |
+| Large data / model weights | [e.g. OSU HPC storage / Google Drive]. **Never committed to git**; only paths and download scripts are committed |
 
-> If you want to ask a question, we assume that you have read the available [Documentation]().
+Every piece of work, including research and writing, starts as an issue on the
+board. If it isn't in an issue, it doesn't count toward the contribution norm.
 
-Before you ask a question, it is best to search for existing [Issues](/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
+## Workflow
 
-If you then still feel the need to ask a question and need clarification, we recommend the following:
+1. Pick or create an issue on the board and assign yourself.
+2. Create a branch from `main` named `<issue-number>-short-description`
+   (e.g. `14-add-tile-loader`).
+3. Commit early and often. Push your branch.
+4. Open a pull request that references the issue (`Closes #14`) and fill out the
+   PR template checklist.
+5. Get the required review (see [Review Expectations](#review-expectations)).
+6. The author merges once every Definition of Done check passes. We use
+   squash-merge to keep `main` history readable.
 
-- Open an [Issue](/issues/new).
-- Provide as much context as you can about what you're running into.
-- Provide project and platform versions (nodejs, npm, etc), depending on what seems relevant.
+Nobody pushes directly to `main`. Branch protection enforces this.
 
-We will then take care of the issue as soon as possible.
+## Definition of Done
 
+A change is done when it is **merged to `main`** and every check below passes.
+This is a shared commitment: the reviewer is responsible for confirming these
+just as much as the author. Each check names what enforces it. Gates that don't
+exist yet are listed with the sprint they land in and who owns building them.
+Until a gate exists, the reviewer checks that item by hand.
 
+| # | Check | Enforced by | Status | Owner |
+|---|---|---|---|---|
+| 1 | No direct pushes to `main`; all changes go through a PR | GitHub branch protection on `main` | [In place now / lands Sprint 1] | Alex |
+| 2 | At least 1 approving review from a teammate who is not the author | GitHub branch protection ("Require approvals: 1") | [In place now / lands Sprint 1] | Alex |
+| 3 | Code is formatted and passes lint | `pre-commit` hook running `ruff check` and `ruff format` (`.pre-commit-config.yaml`), plus the same check as the `lint` job in `.github/workflows/ci.yml` | Lands Sprint [2] | Cash |
+| 4 | All tests pass, and new logic has tests | `test` job in `.github/workflows/ci.yml` running `pytest` | Lands Sprint [2] (once there is code to test) | Jonathan |
+| 5 | CI is green before merge | Branch protection "Require status checks to pass" with `lint` and `test` marked required | Lands Sprint [2], after #3 and #4 exist | Alex |
+| 6 | No secrets, API keys, or large data files committed | `pre-commit` hooks `detect-secrets` and `check-added-large-files` | Lands Sprint [2] | Cash |
+| 7 | Dependencies have no known high-severity vulnerabilities | GitHub Dependabot alerts enabled on the repo | Lands Sprint [2] | Alex |
+| 8 | Docs are updated if behavior, setup, or usage changed (README, `docs/`, AI context file) | Checkbox in `.github/pull_request_template.md`; reviewer confirms | Lands Sprint [1] | Connor |
+| 9 | The linked issue's acceptance criteria are met | Reviewer confirms against the issue; issue closes on merge via `Closes #N` | In place now | Whole team |
 
-## I Want To Contribute
+When a gate lands, its owner updates the Status column in this file in the same
+PR that adds the gate.
 
-> ### Legal Notice 
-> When contributing to this project, you must agree that you have authored 100% of the content, that you have the necessary rights to the content and that the content you contribute may be provided under the project license.
+## Review Expectations
 
-#### Before Submitting a Bug Report
+- **Who reviews:** any teammates other than the author. For changes touching
+  [model training / the data pipeline / partner-facing output], request a review
+  from that area's owner in the table above.
+- **Turnaround:** reviewers respond within **48 hours** of being requested
+  (24 hours in the last 3 days of a sprint). If you can't review in time, say so
+  on the PR so the author can ask someone else.
+- **What a review checks:** the Definition of Done items, whether the code does
+  what the issue asked, and whether someone else could understand and maintain it.
+- **Feedback:** comments marked `nit:` are optional. Anything else must be
+  resolved or discussed before approval.
+- **Size:** keep PRs small enough to review in about 20 minutes (roughly under
+  400 changed lines). Split larger work into multiple PRs.
+- **Stuck PRs:** if a PR has had no review after 48 hours, raise it at the next
+  standup or in the team channel.
 
-A good bug report shouldn't leave others needing to chase you up for more information. Therefore, we ask you to investigate carefully, collect information and describe the issue in detail in your report. Please complete the following steps in advance to help us fix any potential bug as fast as possible.
+## The Contribution Norm
 
-- Make sure that you are using the latest version.
-- Determine if your bug is really a bug and not an error on your side e.g. using incompatible environment components/versions (Make sure that you have read the [documentation](). If you are looking for support, you might want to check [this section](#i-have-a-question)).
-- To see if other users have experienced (and potentially already solved) the same issue you are having, check if there is not already a bug report existing for your bug or error in the [bug tracker](issues?q=label%3Abug).
-- Also make sure to search the internet (including Stack Overflow) to see if users outside of the GitHub community have discussed the issue.
-- Collect information about the bug:
-- Stack trace (Traceback)
-- OS, Platform and Version (Windows, Linux, macOS, x86, ARM)
-- Version of the interpreter, compiler, SDK, runtime environment, package manager, depending on what seems relevant.
-- Possibly your input and the output
-- Can you reliably reproduce the issue? And can you also reproduce it with older versions?
+**Every team member owns at least one piece of accepted work per sprint**, as
+defined by the course's [contribution lines](https://capstone.alexulbrich.com/assignments/sprint-notes/#contribution-lines).
+This norm feeds the individual contribution modifier on Sprint Notes, so we
+follow it as written.
 
+### What "accepted" means
 
-#### How Do I Submit a Good Bug Report?
+| Kind of work | Accepted when |
+|---|---|
+| Code | PR merged to `main` and passes the full Definition of Done |
+| Documentation / design docs | PR adding it to `docs/` is reviewed and merged |
+| Research (paper reviews, model comparisons) | Written summary merged to `docs/research/`, with a teammate's approval |
+| Experiments / training runs | Results (metrics, config, notes) merged to `docs/experiments/` and reviewed |
+| Partner deliverables | Delivered through the partner's system, and the partner (or our partner liaison, on their behalf) confirms receipt in the linked issue |
 
-> You must never report security related issues, vulnerabilities or bugs including sensitive information to the issue tracker, or elsewhere in public. Instead sensitive bugs must be sent by email to <>.
+Work that is in progress, sitting in an unmerged branch, or unreviewed does not
+count yet.
 
+### How we make it workable
 
-We use GitHub issues to track bugs and errors. If you run into an issue with the project:
+- **Sizing:** at sprint planning, issues are broken down until each one can be
+  finished and reviewed within one sprint. Anything bigger gets split.
+- **Assignment:** by the end of sprint planning, every member has at least one
+  issue assigned on the board that they own.
+- **Pairing:** when work is hard to split (e.g. setting up the training
+  environment), we pair. The issue lists one owner and one pair partner, and each
+  person owns a distinct accepted piece (e.g. one writes the code, the other
+  writes the tests or the docs).
+- **Early warning:** if your piece is at risk of not landing by mid-sprint, say
+  so at standup so it can be resized or you can get help.
+- **Review turnaround:** the 48-hour review rule above exists so no one misses
+  the norm because they were waiting on a reviewer.
 
-- Open an [Issue](/issues/new). (Since we can't be sure at this point whether it is a bug or not, we ask you not to talk about a bug yet and not to label the issue.)
-- Explain the behavior you would expect and the actual behavior.
-- Please provide as much context as possible and describe the *reproduction steps* that someone else can follow to recreate the issue on their own. This usually includes your code. For good bug reports you should isolate the problem and create a reduced test case.
-- Provide the information you collected in the previous section.
+## AI-Assisted Work
 
-Once it's filed:
+AI coding tools are allowed. Our AI context file, [`AGENTS.md` / `CLAUDE.md`],
+describes the project, conventions, and commands for those tools, and it is
+updated in the same PR whenever those change. You are responsible for every line
+you submit, whether you or a tool wrote it. AI-generated code goes through the
+same Definition of Done and review as anything else.
 
-- The project team will label the issue accordingly.
-- A team member will try to reproduce the issue with your provided steps. If there are no reproduction steps or no obvious way to reproduce the issue, the team will ask you for those steps and mark the issue as `needs-repro`. Bugs with the `needs-repro` tag will not be addressed until they are reproduced.
-- If the team is able to reproduce the issue, it will be marked `needs-fix`, as well as possibly other tags (such as `critical`), and the issue will be left to be [implemented by someone](#your-first-code-contribution).
+## Reporting Bugs and Asking Questions
 
-
-### Suggesting Enhancements
-
-This section guides you through submitting an enhancement suggestion for CONTRIBUTING.md, **including completely new features and minor improvements to existing functionality**. Following these guidelines will help maintainers and the community to understand your suggestion and find related suggestions.
-
-
-#### Before Submitting an Enhancement
-
-- Make sure that you are using the latest version.
-- Read the [documentation]() carefully and find out if the functionality is already covered, maybe by an individual configuration.
-- Perform a [search](/issues) to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
-- Find out whether your idea fits with the scope and aims of the project. It's up to you to make a strong case to convince the project's developers of the merits of this feature. Keep in mind that we want features that will be useful to the majority of our users and not just a small subset. If you're just targeting a minority of users, consider writing an add-on/plugin library.
-
-
-#### How Do I Submit a Good Enhancement Suggestion?
-
-Enhancement suggestions are tracked as [GitHub issues](/issues).
-
-- Use a **clear and descriptive title** for the issue to identify the suggestion.
-- Provide a **step-by-step description of the suggested enhancement** in as many details as possible.
-- **Describe the current behavior** and **explain which behavior you expected to see instead** and why. At this point you can also tell which alternatives do not work for you.
-- You may want to **include screenshots and animated GIFs** which help you demonstrate the steps or point out the part which the suggestion is related to. You can use [this tool](https://www.cockos.com/licecap/) to record GIFs on macOS and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux. 
-- **Explain why this enhancement would be useful** to most CONTRIBUTING.md users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
-
-
-### Improving The Documentation
-
-If you plan on fixing issues or contributing to the repo, commits and pushes will be thoroughly reviewed to ensure nothing breaks.
+- Search existing [issues](../../issues) first.
+- Otherwise open a new issue with: what you expected, what happened, steps to
+  reproduce, and relevant versions (Python, OS, library versions).
+- Label it `bug`, `question`, or `enhancement`.
+- Never put secrets, credentials, or partner-confidential data in an issue.
+  Message [NAME] directly instead.
 
 ## Styleguides
 
-soon to be added
+### Code
+
+- Python [3.11], formatted and linted with `ruff` (enforced by the pre-commit
+  hook once it lands; see Definition of Done #3).
+- Type hints on public functions.
 
 ### Commit Messages
 
-Make sure they are concise and easy to understand when writing commit messages
+Use short, imperative summaries that reference the issue:
 
-## Attribution
-This guide is based on the **contributing.md**. [Make your own](https://contributing.md/)!
-All credits go to the original creator of the contributing file
+```
+Add tile loader for aerial images (#14)
+Fix off-by-one in bbox scaling (#22)
+```
+
+## Code of Conduct
+
+Be respectful, give constructive feedback, and assume good intent. Report
+problems to the team.
