@@ -24,8 +24,8 @@ open an issue and fix the file. Don't just ignore it.
 | Member | Primary area | Owns these gates (see Definition of Done) |
 |---|---|---|
 | Jonathan | [e.g. model training / evaluation] | [e.g. test suite, CI test job] |
-| Cash | [e.g. data pipeline] | [e.g. lint + format hooks] |
-| Alex | [e.g. infrastructure / tooling] | [e.g. CI workflow, branch protection] |
+| Alex | [e.g. data pipeline] | [e.g. lint + format hooks] |
+| Cash | [e.g. infrastructure / tooling] | [e.g. CI workflow, branch protection] |
 | Connor | [e.g. docs / partner liaison] | [e.g. PR template, docs check] |
 
 Project partner: Marg Daly, Pacific Northwest National Laboratory. Partner contact goes through
