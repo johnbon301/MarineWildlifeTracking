@@ -1,3 +1,17 @@
+# RFC: Managing Python Dependencies for our YOLO Models.
+Project: CS.055 - Tracking marine Animals from Aerial Imagery: A Tiny Object Problem.
+
+Originally Proposed: October 25, 2026
+
+Revised: November 22. 2026
+
+Status: Proposed
+
+Decision Date: Open
+
+Deciders: Capstone team, pending review
+
+
 ## Problem and Context
 
 > Now that we have YOLO working with our first 100 annotated images. The results gave us a fair starting point, but the model still misses sea otters that often obvious to the naked eye. We’re adding more labels in Roboflow, and we’re deciding whether to keep training with Ultralytics or try Lightning-YOLOs, mentioned by our project partner's marine biology domain expert. Before we make that call, I want another teammate to be able to run the model we already have and get the same detections. [1]
