@@ -35,15 +35,15 @@ Expected result: `7 passed`.
 
 ```
 marine_tracking/
-  annotations.py   Load Roboflow COCO annotations and convert boxes to YOLO format
-  metrics.py       Detection evaluation metrics (IoU, precision, recall, F1)
+  annotations.py   Load Roboflow COCO annotations, count boxes per class, convert to YOLO format
+  metrics.py       Compare annotation sets (IoU, precision, recall, F1)
 tests/             Automated tests, run in CI on every pull request
 docs/              Requirements, design, and risk register
 ```
 
 ## Project Status
 
-The repository currently holds the annotation-loading and evaluation modules and their tests. The detection pipeline is being developed in Google Colab and is being moved into this repository (see `docs/DESIGN.md`, Section 9).
+The repository currently holds the annotation comparison module and its tests. The detection pipeline is in development (see `docs/DESIGN.md`).
 
 Annotated images are private partner data and are not stored in this repository.
 
