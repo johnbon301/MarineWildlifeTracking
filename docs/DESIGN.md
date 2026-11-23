@@ -97,9 +97,16 @@ Potential approaches include tracking algorithms that associate detections based
 
 ### 3.4 Compute Environment
 
-The team intends to investigate OSU High Performance Computing (HPC) resources for computationally intensive model training and dataset processing.
+All model training and dataset processing runs in Google Colab notebooks, using a team member's paid Google AI subscription for GPU access.
 
-The final compute environment and deployment configuration will be documented once access and infrastructure requirements are established.
+The team runs two training pipelines in Colab to compare how well each approach detects small sea otters:
+
+- **Tiling pipeline:** Images are sliced into 640 px tiles with SAHI. The model trains on the tiles, and SAHI sliced inference merges detections back onto the full image.
+- **Rescaling pipeline:** Whole images are resized to the model's input size, with no slicing.
+
+Both pipelines use the same model (YOLO26), the same Roboflow-labeled dataset, and the same held-out test set, so their results can be compared directly.
+
+Notebooks are saved to this repository through pull requests. Large data and model weights are stored outside Git, and only their paths are recorded here.
 
 ## 4. Model Training and Dataset Strategy
 
@@ -165,15 +172,15 @@ The final evaluation metrics and success criteria will be determined based on th
 
 ## 7. Development and Compute Environment
 
-Model development, training, and evaluation will use the team's development environment and available computational resources.
+All development, training, and evaluation runs in Google Colab. See §3.4 for the compute setup and the two training pipelines.
 
-Potential compute resources include:
+Main software dependencies:
 
 - Local development machines for code development and smaller experiments.
 - Google Colab GPU runtimes for computationally intensive training and evaluation.
 - Additional compute resources if required by the dataset size or model architecture.
 
-The final compute environment, software dependencies, and execution procedures will be documented once established.
+Each notebook installs its own dependencies in its first cell, so a fresh Colab runtime can run it from top to bottom.
 
 ## 8. Interfaces and Component Contracts
 
@@ -192,13 +199,18 @@ These interfaces will be refined as implementation progresses.
 
 ## 9. Deployment and Execution
 
-As a research project, deployment primarily concerns the ability to reproduce and execute the research pipeline.
+As a capstone project, deployment primarily concerns the ability to reproduce and execute the research pipeline.
 
-The intended execution environment is [INSERT COMPUTE ENVIRONMENT].
+The execution environment is Google Colab with a GPU runtime. The two pipeline notebooks (tiling and rescaling) are kept in this repository.
+
+To reproduce an experiment you need to:
+
+1. Open the pipeline notebook from this repository in Colab.
+2. Connects to a GPU runtime.
+3. Downloads the dataset version from Roboflow, using the version recorded in the notebook.
+4. Runs all cells to train, evaluate on the held-out test set, and save the results.
 
 The pipeline will be tested end-to-end using a small sample dataset before being executed on the full research dataset.
-
-The execution process should allow another researcher to reproduce the experiment using the documented dependencies, configurations, and dataset requirements.
 
 ## 10. Technical Decisions and Open Questions
 
