@@ -79,6 +79,15 @@ The system must present analyzed information in a format understandable to its i
 
 **Acceptance criteria:** A user must be able to review processed footage and access a structured summary of detections, tracking information, and supported behavioral observations without needing to interpret raw model output.
 
+FR-6: Annotation Comparison
+The system must compare two sets of bounding-box annotations for the same images.
+
+FR-6.1: Load annotation files exported from Roboflow in COCO JSON format.
+FR-6.2: Count annotated boxes per class.
+FR-6.3: Convert COCO bounding boxes to YOLO format.
+FR-6.4: Measure agreement between annotation sets using intersection over union (IoU), precision, recall, and F1.
+Acceptance criteria: tests/test_annotations.py and tests/test_metrics.py pass in CI.
+
 ## 3. Non-Functional Requirements
 
 ### NFR-1: Reliability
