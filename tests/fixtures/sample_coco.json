@@ -1,0 +1,18 @@
+{
+  "categories": [
+    {"id": 0, "name": "Aerial-Otter-Imagery", "supercategory": "none"},
+    {"id": 1, "name": "bird", "supercategory": "Aerial-Otter-Imagery"},
+    {"id": 2, "name": "poss otter", "supercategory": "Aerial-Otter-Imagery"},
+    {"id": 3, "name": "sea otter", "supercategory": "Aerial-Otter-Imagery"}
+  ],
+  "images": [
+    {"id": 0, "file_name": "a.jpg", "width": 1000, "height": 800},
+    {"id": 1, "file_name": "b.jpg", "width": 1000, "height": 800}
+  ],
+  "annotations": [
+    {"id": 0, "image_id": 0, "category_id": 3, "bbox": [100, 200, 50, 40]},
+    {"id": 1, "image_id": 0, "category_id": 3, "bbox": [500, 500, 60, 60]},
+    {"id": 2, "image_id": 1, "category_id": 2, "bbox": [10, 10, 20, 20]},
+    {"id": 3, "image_id": 1, "category_id": 1, "bbox": [700, 100, 30, 30]}
+  ]
+}

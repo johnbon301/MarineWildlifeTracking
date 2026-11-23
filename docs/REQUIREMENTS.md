@@ -79,6 +79,15 @@ The system must present analyzed information in a format understandable to its i
 
 **Acceptance criteria:** A user must be able to review processed footage and access a structured summary of detections, tracking information, and supported behavioral observations without needing to interpret raw model output.
 
+FR-6: Annotation Comparison
+The system must compare two sets of bounding-box annotations for the same images.
+
+FR-6.1: Load annotation files exported from Roboflow in COCO JSON format.
+FR-6.2: Count annotated boxes per class.
+FR-6.3: Convert COCO bounding boxes to YOLO format.
+FR-6.4: Measure agreement between annotation sets using intersection over union (IoU), precision, recall, and F1.
+Acceptance criteria: tests/test_annotations.py and tests/test_metrics.py pass in CI.
+
 ## 3. Non-Functional Requirements
 
 ### NFR-1: Reliability
@@ -104,3 +113,17 @@ Generated results should be understandable to researchers and government organiz
 ### NFR-6: Maintainability
 
 The software should use modular components so that detection, tracking, behavioral analysis, and reporting can be updated independently
+
+## 4. Constraints
+
+### C-1: Image Detail and Visibility
+
+A sea otter may occupy only a few pixels in an aerial image. Glare or partial occlusion can leave enough detail to locate the animal but too little to identify its behavior. This limits what the system can report under FR-1, FR-3, and FR-5.
+
+**Acceptance criteria:** Given a clip in which a sea otter is detected but its behavior cannot be determined from the visible frames, the report must retain the detection and mark the behavior as undetermined.
+
+### C-2: Ground-Truth Annotations
+
+The annotations available for a test dataset determine which results can be evaluated. Detection under FR-1 requires reference bounding boxes. Tracking under FR-2 requires identities linked across frames. Behavior classification under FR-3 requires human-labeled examples of the behaviors being evaluated.
+
+**Acceptance criteria:** Given a test dataset labeled only with sea otter bounding boxes, the evaluation report must include detection metrics and mark tracking and behavior classification as unevaluated on that dataset.
