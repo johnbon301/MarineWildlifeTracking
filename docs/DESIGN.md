@@ -22,6 +22,8 @@ The system is organized into several primary components:
 5. **Evaluation:** Measure detection and tracking performance using appropriate evaluation metrics.
 6. **Visualization:** Display detection bounding boxes and tracking identifiers on images and video footage.
 
+Currently implemented in the repository: an annotation comparison module. marine_tracking/annotations.py loads Roboflow COCO exports, counts boxes per class, and converts boxes to YOLO format; marine_tracking/metrics.py measures agreement between annotation sets using IoU, precision, recall, and F1. Both are covered by automated tests that run in CI on every pull request. The detection pipeline is being developed in Google Colab and will be moved into the repository.
+
 ### System Pipeline
 
 ```text
@@ -134,7 +136,9 @@ Data processing may include:
 - Video frame extraction.
 - Data augmentation, where appropriate.
 
-The dataset structure, annotation format, and preprocessing configuration will be documented as they are established.
+Annotations are created in Roboflow (project: aerial-otter-imagery) and exported in COCO JSON format. Each bounding box is stored as [x, y, width, height] in pixels and is converted to YOLO format (normalized center x, center y, width, height) for training. The dataset uses six classes: sea otter, poss otter (possible otter), seal, bird, watercraft, and unknown. Category 0 ("Aerial-Otter-Imagery") is a placeholder Roboflow adds and is not used for any boxes. Images are high-resolution drone stills, mostly from DJI cameras, ranging from 4000×3000 to 5464×3640 pixels. The images and full annotation files are private and are stored outside Git.
+
+The dataset folder structure and preprocessing configuration will be documented once the pipeline is moved from Google Colab into the repository.
 
 ## 6. Evaluation and Performance Metrics
 
@@ -166,7 +170,7 @@ Model development, training, and evaluation will use the team's development envi
 Potential compute resources include:
 
 - Local development machines for code development and smaller experiments.
-- OSU High Performance Computing (HPC) resources for computationally intensive training and evaluation.
+- Google Colab GPU runtimes for computationally intensive training and evaluation.
 - Additional compute resources if required by the dataset size or model architecture.
 
 The final compute environment, software dependencies, and execution procedures will be documented once established.
